@@ -1,18 +1,21 @@
-const compose = require('koa-compose');
-const scheduler = require('node-schedule');
-const SquadServer = require('./server');
+import compose from 'koa-compose';
+import scheduler from 'node-schedule';
+import SquadServer from './server';
 
-module.exports = class Application {
+export default class Application {
   constructor() {
     this.plugins = [];
     this.servers = [];
   }
 
-  watch(schedule = '*/1 * * * * *') {
+  watch(schedule = '*/30 * * * * *') {
     this.schedule = scheduler.scheduleJob(schedule, this.callback());
   }
 
   callback() {
+    this.plugins.unshift(this.getServerInfo);
+    this.plugins.push(this.setServerInfo);
+
     const fn = compose(this.plugins);
 
     return () => {
@@ -34,4 +37,14 @@ module.exports = class Application {
       throw new TypeError('Server must be an instance of SquadServer');
     this.servers.push(server);
   }
-};
+
+  async getServerInfo(server, next) {
+    await server.getServerInfo();
+    return next();
+  }
+
+  async setServerInfo(server, next) {
+    await server.setServerInfo();
+    return next();
+  }
+}
