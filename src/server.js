@@ -23,6 +23,9 @@ export default class SquadServer {
     this.populationHistory = [];
     this.populationHistoryMaxLength = 10;
 
+    this.mapHistory = [];
+    this.mapHistoryMaxLength = 10;
+
     this.announcements = [];
   }
 
@@ -35,8 +38,12 @@ export default class SquadServer {
 
     this.name = response.name;
 
+    this.maxPlayers = parseInt(response.maxplayers);
+    this.publicSlots = parseInt(response.raw.rules.NUMPUBCONN);
+    this.reserveSlots = parseInt(response.raw.rules.NUMPRIVCONN);
+
     this.players = response.players;
-    this.populationCount = response.players.length;
+    this.populationCount = Math.min(this.maxPlayers, response.players.length);
     this.populationHistory.unshift(this.populationCount);
     this.populationHistory.slice(0, this.populationHistoryMaxLength);
     this.populationGrowth = isNaN(this.populationHistory[5])
@@ -46,10 +53,6 @@ export default class SquadServer {
     this.publicQueue = parseInt(response.raw.rules.PublicQueue_i);
     this.reserveQueue = parseInt(response.raw.rules.ReservedQueue_i);
 
-    this.maxPlayers = parseInt(response.maxplayers);
-    this.publicSlots = parseInt(response.raw.rules.NUMPUBCONN);
-    this.reserveSlots = parseInt(response.raw.rules.NUMPRIVCONN);
-
     this.matchTimeout = parseFloat(response.raw.rules.MatchTimeout_f);
     this.gameVersion = response.raw.version;
 
@@ -57,14 +60,27 @@ export default class SquadServer {
     this.nextMapChange = false;
     let { currentMap, nextMap } = await this.rcon.getCurrentAndNextMap();
 
-    if (this.currentMap !== currentMap) this.mapChange = true;
+    if (this.currentMap !== undefined && this.currentMap !== currentMap)
+      this.mapChange = true;
     this.currentMap = currentMap;
     this.originalCurrentMap = currentMap;
 
-    if (this.mapChange === false && this.nextMap !== nextMap)
+    if (
+      this.nextMap !== undefined &&
+      this.mapChange === false &&
+      this.nextMap !== nextMap
+    )
       this.nextMapChange = true;
     this.nextMap = nextMap;
     this.originalNextMap = nextMap;
+
+    if (this.mapChange) {
+      this.mapHistory.unshift({
+        map: this.mapHistory,
+        time: new Date()
+      });
+      this.mapHistory.slice(0, this.mapHistoryMaxLength);
+    }
   }
 
   makeAnnouncement(text) {

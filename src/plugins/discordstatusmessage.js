@@ -20,8 +20,8 @@ export default class DiscordStatusMessage {
         fields: [
           {
             name: 'Player Count',
-            value: `\`\`\`${server.populationCount}(+${server.reserveQueue +
-              server.publicQueue}) / ${server.publicSlots}(+${
+            value: `\`\`\`${server.populationCount} (+${server.reserveQueue +
+              server.publicQueue}) / ${server.publicSlots} (+${
               server.reserveSlots
             })\`\`\``
           },
