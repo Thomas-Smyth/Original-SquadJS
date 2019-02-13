@@ -13,7 +13,6 @@ export default class SeedingMessage {
         this.lastMessage++;
         return next();
       }
-
       this.lastMessage = 0;
 
       if (!server.currentMap) return next();

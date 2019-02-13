@@ -3,7 +3,7 @@ import Gamedig from 'gamedig';
 
 export default class SquadServer {
   constructor(id, host, queryPort, rconPort, rconPassword) {
-    if (id) this.name = id;
+    if (id) this.id = id;
     else throw new Error('SquadServer must have a id!');
 
     if (host) this.host = host;
@@ -43,14 +43,14 @@ export default class SquadServer {
       ? undefined
       : this.populationHistory[0] - this.populationHistory[5];
 
-    this.publicQueue = response.raw.rules.PublicQueue_i;
-    this.reserveQueue = response.raw.rules.PlayerReserveCount_i;
+    this.publicQueue = parseInt(response.raw.rules.PublicQueue_i);
+    this.reserveQueue = parseInt(response.raw.rules.ReservedQueue_i);
 
-    this.maxPlayers = response.maxplayers;
-    this.publicSlots = response.raw.rules.NUMPUBCONN;
-    this.reserveSlots = response.raw.rules.NUMPRIVCONN;
+    this.maxPlayers = parseInt(response.maxplayers);
+    this.publicSlots = parseInt(response.raw.rules.NUMPUBCONN);
+    this.reserveSlots = parseInt(response.raw.rules.NUMPRIVCONN);
 
-    this.matchTimeout = response.raw.rules.MatchTimeout_f;
+    this.matchTimeout = parseFloat(response.raw.rules.MatchTimeout_f);
     this.gameVersion = response.raw.version;
 
     this.mapChange = false;
