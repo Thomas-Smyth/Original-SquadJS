@@ -1,4 +1,4 @@
-import SquadMaps from '../data/squad-maps/layers.json';
+import SquadMaps from '../../data/squad-maps/layers.json';
 
 export default class SeedingMessage {
   constructor(frequency = 5, maxPopulation = 40) {
