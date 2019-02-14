@@ -6,7 +6,7 @@ export default class DiscordStatusMessage {
   }
 
   plugin() {
-    return (server, next) => {
+    return async (server, next) => {
       let statusMessages;
       if (this.serverStatusMessages.hasOwnProperty(server.id)) {
         statusMessages = this.serverStatusMessages[server.id];
@@ -27,12 +27,12 @@ export default class DiscordStatusMessage {
           },
           {
             name: 'Current Map',
-            value: `\`\`\`${server.currentMap || 'Map not set!'}\`\`\``,
+            value: `\`\`\`${server.currentLayer || 'Map not set!'}\`\`\``,
             inline: true
           },
           {
             name: 'Next Map',
-            value: `\`\`\`${server.nextMap || ' Map not set!'}\`\`\``,
+            value: `\`\`\`${server.nextLayer || 'Map not set!'}\`\`\``,
             inline: true
           }
         ]

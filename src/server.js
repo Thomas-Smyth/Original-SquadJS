@@ -23,8 +23,8 @@ export default class SquadServer {
     this.populationHistory = [];
     this.populationHistoryMaxLength = 10;
 
-    this.mapHistory = [];
-    this.mapHistoryMaxLength = 10;
+    this.layerHistory = [];
+    this.layerHistoryMaxLength = 10;
 
     this.announcements = [];
   }
@@ -56,31 +56,34 @@ export default class SquadServer {
     this.matchTimeout = parseFloat(response.raw.rules.MatchTimeout_f);
     this.gameVersion = response.raw.version;
 
-    this.mapChange = false;
-    this.nextMapChange = false;
-    let { currentMap, nextMap } = await this.rcon.getCurrentAndNextMap();
+    this.layerChange = false;
+    this.nextLayerChange = false;
+    let { currentLayer, nextLayer } = await this.rcon.getCurrentAndNextLayer();
 
-    if (this.currentMap !== undefined && this.currentMap !== currentMap)
-      this.mapChange = true;
-    this.currentMap = currentMap;
-    this.originalCurrentMap = currentMap;
+    if (this.currentLayer !== undefined && this.currentLayer !== currentLayer)
+      this.layerChange = true;
+    this.currentLayer = currentLayer;
+    this.originalCurrentLayer = currentLayer;
 
     if (
-      this.nextMap !== undefined &&
-      this.mapChange === false &&
-      this.nextMap !== nextMap
+      this.nextLayer !== undefined &&
+      this.layerChange === false &&
+      this.nextLayer !== nextLayer
     )
-      this.nextMapChange = true;
-    this.nextMap = nextMap;
-    this.originalNextMap = nextMap;
+      this.nextLayerChange = true;
+    this.nextLayer = nextLayer;
+    this.originalNextLayer = nextLayer;
 
-    if (this.mapChange) {
-      this.mapHistory.unshift({
-        map: this.mapHistory,
+    if (this.layerChange) {
+      this.layerHistory.unshift({
+        layer: this.layerHistory,
         time: new Date()
       });
-      this.mapHistory.slice(0, this.mapHistoryMaxLength);
+      this.layerHistory.slice(0, this.layerHistoryMaxLength);
     }
+
+    if (this.lastNextLayerUpdate === undefined)
+      this.lastNextLayerUpdate = this.nextLayer;
   }
 
   makeAnnouncement(text) {
@@ -88,10 +91,13 @@ export default class SquadServer {
   }
 
   async setServerInfo() {
-    if (this.originalCurrentMap !== this.currentMap)
-      await this.rcon.changeMap(this.currentMap);
-    if (this.originalNextMap !== this.nextMap)
-      await this.rcon.setNextMap(this.nextMap);
+    // Used to tell if the admin has updated the layer via other means since the time the script was run.
+    this.lastNextLayerUpdate = this.nextLayer;
+
+    if (this.originalCurrentLayer !== this.currentLayer)
+      await this.rcon.changeLayer(this.currentLayer);
+    if (this.originalNextLayer !== this.nextLayer)
+      await this.rcon.setNextLayer(this.nextLayer);
 
     this.announcements.forEach((message, delay) => {
       setTimeout(async () => {

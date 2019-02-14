@@ -18,7 +18,7 @@ export default class RconClient {
     return response;
   }
 
-  async getCurrentAndNextMap() {
+  async getCurrentAndNextLayer() {
     let response = await this.execute('ShowNextMap');
 
     response = response
@@ -27,17 +27,17 @@ export default class RconClient {
       .split(',');
 
     return {
-      currentMap: response[0] !== '' ? response[0] : undefined,
-      nextMap: response[1] !== '' ? response[1] : undefined
+      currentLayer: response[0] !== '' ? response[0] : undefined,
+      nextLayer: response[1] !== '' ? response[1] : undefined
     };
   }
 
-  async changeMap(map) {
-    await this.execute(`AdminChangeMap ${map}`);
+  async changeLayer(layer) {
+    await this.execute(`AdminChangeMap ${layer}`);
   }
 
-  async setNextMap(map) {
-    await this.execute(`AdminSetNextMap ${map}`);
+  async setNextLayer(layer) {
+    await this.execute(`AdminSetNextMap ${layer}`);
   }
 
   async makeAnnouncement(message) {

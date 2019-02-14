@@ -8,7 +8,7 @@ export default class SeedingMessage {
   }
 
   plugin() {
-    return (server, next) => {
+    return async (server, next) => {
       if (this.lastMessage !== this.frequency) {
         this.lastMessage++;
         return next();
