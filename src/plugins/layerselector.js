@@ -56,11 +56,11 @@ export default class LayerSelector {
       layers.push(layer);
     }
 
-    this.layer = layers;
+    this.layers = layers;
   }
 
   clearFilter() {
-    this.layer = SquadMaps;
+    this.layers = SquadMaps;
   }
 
   isLayer(layer) {
