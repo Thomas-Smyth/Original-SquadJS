@@ -15,19 +15,19 @@ export default class SeedingMessage {
       }
       this.lastMessage = 0;
 
-      if (!server.currentMap) return next();
+      if (!server.currentLayer) return next();
       if (server.populationCount >= this.maxPopulation) return next();
 
       if (
         !['Skirmish', 'AAS', 'AAS INF', 'RAAS'].includes(
-          SquadMaps[server.currentMap].gamemode
+          SquadMaps[server.currentLayer].gamemode
         )
       )
         return next();
 
       let flags =
-        SquadMaps[server.currentMap].middleFlags.length !== 0
-          ? SquadMaps[server.currentMap].middleFlags.join(' and ')
+        SquadMaps[server.currentLayer].middleFlags.length !== 0
+          ? SquadMaps[server.currentLayer].middleFlags.join(' and ')
           : 'the center flags';
 
       server.makeAnnouncement(

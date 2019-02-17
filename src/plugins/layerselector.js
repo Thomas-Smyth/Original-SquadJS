@@ -15,6 +15,18 @@ export default class LayerSelector {
     this.layers = Object.keys(SquadMaps);
   }
 
+  plugin() {
+    return async (server, next) => {
+      if (server.adminChangeNextLayer) return next();
+
+      if (this.isCompliant(server, server.nextLayer)) return next();
+
+      server.nextLayer = this.randomCompliantLayer(server);
+
+      return next();
+    };
+  }
+
   layerFilter(filterOptions) {
     let nightLayer = filterOptions.nightLayer || undefined;
     let whitelistLayers = filterOptions.whitelistLayers || null;
@@ -83,7 +95,7 @@ export default class LayerSelector {
       );
       i++
     ) {
-      if (new Date() - layerHistory[i].time < this.timeTolerance) return true;
+      if (new Date() - layerHistory[i].time > this.timeTolerance) return true;
       if (
         i < this.mapTolerance &&
         SquadMaps[layerHistory[i].layer].map === layerInfo.map
@@ -140,17 +152,5 @@ export default class LayerSelector {
     }
 
     return layers;
-  }
-
-  plugin() {
-    return async (server, next) => {
-      if (server.nextLayer !== server.lastNextLayerUpdate) return next();
-
-      if (this.isCompliant(server, server.nextLayer)) return next();
-
-      server.nextLayer = this.randomCompliantLayer(server);
-
-      return next();
-    };
   }
 }
