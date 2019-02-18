@@ -20,11 +20,11 @@ const app = new ServerManager();
 
 // Add Servers to App
 const ServerName = new SquadServer(
-  'ServerName',
-  'IP Addr',
-  7787,
-  27165,
-  'Rcon Password'
+  'ServerName', // needs to be unique across all servers
+  'IP Addr', // host address of server
+  7787, // query port
+  27165, // rcon port
+  'Rcon Password' // rcon password
 );
 app.addServer(ServerName);
 
