@@ -1,8 +1,10 @@
 export default class DiscordStatusMessage {
-  constructor(client, serverStatusMessages = {}, interval = '5 minutes') {
-    this.client = client;
+  constructor(client, serverStatusMessages = {}, options = {}) {
+    if (client) this.client = client;
+    else throw new Error('DiscordStatusMessage must have a Discord.js client!');
+
     this.serverStatusMessages = serverStatusMessages;
-    this.interval = interval;
+    this.interval = options.interval || '5 minutes';
   }
 
   plugin() {

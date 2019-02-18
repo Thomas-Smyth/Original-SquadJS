@@ -1,16 +1,11 @@
 import SquadMaps from '../../data/squad-maps/layers.json';
 
 export default class LayerSelector {
-  constructor(
-    layerTolerance = 2,
-    mapTolerance = 4,
-    timeTolerance = 4 * 60 * 60 * 1000,
-    backupLayer = "Fool's Road AAS v1"
-  ) {
-    this.layerTolerance = layerTolerance;
-    this.mapTolerance = mapTolerance;
-    this.timeTolerance = timeTolerance;
-    this.backupLayer = backupLayer;
+  constructor(options = {}) {
+    this.layerTolerance = options.layerTolerance || 4;
+    this.mapTolerance = options.mapTolerance || 2;
+    this.timeTolerance = options.timeTolerance || 4 * 60 * 60 * 1000;
+    this.backupLayer = options.backupLayer || "Fool's Road AAS v1";
 
     this.layers = Object.keys(SquadMaps);
   }
@@ -27,7 +22,7 @@ export default class LayerSelector {
     };
   }
 
-  layerFilter(filterOptions) {
+  layerFilter(filterOptions = {}) {
     let nightLayer = filterOptions.nightLayer || undefined;
     let whitelistLayers = filterOptions.whitelistLayers || null;
     let blacklistLayers = filterOptions.blacklistLayers || null;

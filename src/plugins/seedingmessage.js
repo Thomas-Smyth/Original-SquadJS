@@ -1,7 +1,7 @@
 import SquadMaps from '../../data/squad-maps/layers.json';
 
 export default class SeedingMessage {
-  constructor(frequency = 5, maxPopulation = 40) {
+  constructor(maxPopulation = 40, frequency = 5) {
     this.lastMessage = frequency;
     this.frequency = frequency;
     this.maxPopulation = maxPopulation;

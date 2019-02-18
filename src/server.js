@@ -2,7 +2,7 @@ import RconClient from './rconclient';
 import Gamedig from 'gamedig';
 
 export default class SquadServer {
-  constructor(id, host, queryPort, rconPort, rconPassword) {
+  constructor(id, host, queryPort, rconPort, rconPassword, options = {}) {
     if (id) this.id = id;
     else throw new Error('SquadServer must have a id!');
 
@@ -20,11 +20,11 @@ export default class SquadServer {
 
     this.rcon = new RconClient(this.host, this.rconPort, this.rconPassword);
 
-    this.populationHistory = [];
-    this.populationHistoryMaxLength = 10;
+    this.populationHistory = options.populationHistory || [];
+    this.populationHistoryMaxLength = options.populationHistoryMaxLength || 20;
 
-    this.layerHistory = [];
-    this.layerHistoryMaxLength = 10;
+    this.layerHistory = options.layerHistory || [];
+    this.layerHistoryMaxLength = options.layerHistoryMaxLength || [];
 
     this.announcements = [];
   }
@@ -46,9 +46,9 @@ export default class SquadServer {
     this.populationCount = Math.min(this.maxPlayers, response.players.length);
     this.populationHistory.unshift(this.populationCount);
     this.populationHistory.slice(0, this.populationHistoryMaxLength);
-    this.populationGrowth = isNaN(this.populationHistory[5])
+    this.populationGrowth = isNaN(this.populationHistory[10])
       ? undefined
-      : this.populationHistory[0] - this.populationHistory[5];
+      : this.populationHistory[0] - this.populationHistory[10];
 
     this.publicQueue = parseInt(response.raw.rules.PublicQueue_i);
     this.reserveQueue = parseInt(response.raw.rules.ReservedQueue_i);
@@ -99,10 +99,6 @@ export default class SquadServer {
     if (this.layerChange === true) this.adminChangeNextLayer = false;
   }
 
-  makeAnnouncement(text) {
-    this.announcements.push(text);
-  }
-
   async setServerInfo() {
     if (this.originalCurrentLayer !== this.currentLayer)
       await this.rcon.changeLayer(this.currentLayer);
@@ -119,5 +115,9 @@ export default class SquadServer {
     });
 
     this.announcements = [];
+  }
+
+  makeAnnouncement(text) {
+    this.announcements.push(text);
   }
 }

@@ -3,9 +3,14 @@ import Rcon from '@thomas-smyth/rcon';
 
 export default class RconClient {
   constructor(host, port, password) {
-    this.host = host;
-    this.port = port;
-    this.password = password;
+    if (host) this.host = host;
+    else throw new Error('RconClient must have a host!');
+
+    if (port) this.port = port;
+    else throw new Error('RconClient must have a rcon port!');
+
+    if (password) this.password = password;
+    else throw new Error('RconClient must have a rcon password!');
 
     this.rcon = new Rcon({ host: this.host, port: this.port });
   }

@@ -7,17 +7,18 @@ export default class MapVote {
     client,
     LayerSelector = new LayerSelectorImport(),
     voteChannels = {},
-    forceVoteTag = [],
-    prefix = '!',
-    resultsLimit = 5
+    options = {}
   ) {
-    this.client = client;
+    if (client) this.client = client;
+    else throw new Error('MapVote must have a Discord.js client!');
     this.client.on('message', this.handleMessage.bind(this));
+
     this.LayerSelector = LayerSelector;
     this.voteChannels = voteChannels;
-    this.prefix = prefix;
-    this.resultsLimit = resultsLimit;
-    this.forceVoteTag = forceVoteTag;
+
+    this.prefix = options.prefix || '!';
+    this.resultsLimit = options.resultsLimit || 5;
+    this.forceVoteTag = options.forceVoteTag || [];
 
     this.forcedLayer = {};
     this.votes = {};
