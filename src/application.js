@@ -8,7 +8,7 @@ export default class Application {
     this.servers = [];
   }
 
-  watch(schedule = '*/30 * * * * *') {
+  watch(schedule = '*/60 * * * * *') {
     this.schedule = scheduler.scheduleJob(schedule, this.callback());
   }
 

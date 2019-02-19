@@ -21,7 +21,7 @@ export default class SquadServer {
     this.rcon = new RconClient(this.host, this.rconPort, this.rconPassword);
 
     this.populationHistory = options.populationHistory || [];
-    this.populationHistoryMaxLength = options.populationHistoryMaxLength || 20;
+    this.populationHistoryMaxLength = options.populationHistoryMaxLength || 10;
 
     this.layerHistory = options.layerHistory || [];
     this.layerHistoryMaxLength = options.layerHistoryMaxLength || [];
@@ -46,9 +46,9 @@ export default class SquadServer {
     this.populationCount = Math.min(this.maxPlayers, response.players.length);
     this.populationHistory.unshift(this.populationCount);
     this.populationHistory.slice(0, this.populationHistoryMaxLength);
-    this.populationGrowth = isNaN(this.populationHistory[10])
+    this.populationGrowth = isNaN(this.populationHistory[5])
       ? undefined
-      : this.populationHistory[0] - this.populationHistory[10];
+      : this.populationHistory[0] - this.populationHistory[5];
 
     this.publicQueue = parseInt(response.raw.rules.PublicQueue_i);
     this.reserveQueue = parseInt(response.raw.rules.ReservedQueue_i);
