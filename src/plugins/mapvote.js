@@ -3,6 +3,14 @@ import SquadMaps from '../../data/squad-maps/layers.json';
 import LayerSelectorImport from './layerselector';
 
 export default class MapVote {
+  /**
+   * Init the Map Vote Plugin
+   *
+   * @param client
+   * @param {LayerSelector} LayerSelector
+   * @param {Object} voteChannels
+   * @param {Object} options
+   */
   constructor(
     client,
     LayerSelector = new LayerSelectorImport(),
@@ -32,6 +40,11 @@ export default class MapVote {
     }
   }
 
+  /**
+   * Output plugin function to apply to the application.
+   *
+   * @returns {Function}
+   */
   plugin() {
     return async (server, next) => {
       if (server.adminChangeNextLayer) {
@@ -66,6 +79,11 @@ export default class MapVote {
     };
   }
 
+  /**
+   * Direct message to relevant command function if initial conditions are met.
+   *
+   * @param msg
+   */
   handleMessage(msg) {
     if (msg.author.bot) return;
     if (msg.content.indexOf(this.prefix) !== 0) return;
@@ -89,6 +107,13 @@ export default class MapVote {
     }
   }
 
+  /**
+   * Handle a vote command.
+   *
+   * @param msg
+   * @param args
+   * @param {boolean} forced
+   */
   handleVote(msg, args, forced = false) {
     let layer = args.join(' ');
     let server = this.voteChannels[msg.channel.id];
@@ -147,7 +172,15 @@ export default class MapVote {
     msg.reply(`you voted for \`${layer}\`. ${additionalText}`, { embed });
   }
 
+  /**
+   * Make a Discord message announcing new map vote.
+   *
+   * @param {Mixed} serverID
+   * @param {String} additionalText
+   * @returns {Promise<void>}
+   */
   async newVoteMessage(serverID, additionalText = '') {
+    // Build embed
     let fields = [];
     let counter = -1;
 
@@ -177,6 +210,7 @@ export default class MapVote {
       fields: fields
     };
 
+    // Send embed to channels
     let servers = {};
     for (let key in this.voteChannels) {
       servers[this.voteChannels[key].id] = key;
@@ -191,6 +225,12 @@ export default class MapVote {
     }
   }
 
+  /**
+   * Select the map for the server based on the vote results.
+   *
+   * @param server
+   * @returns {*|String}
+   */
   selectMap(server) {
     let newLayer;
 
@@ -211,21 +251,47 @@ export default class MapVote {
     return newLayer;
   }
 
+  /**
+   * Return the layer given the layer number.
+   *
+   * @param {Integer} number
+   * @returns {String}
+   */
   numberToLayer(number) {
     return this.LayerSelector.layers[number - 1];
   }
 
+  /**
+   * Update a given voter's vote.
+   *
+   * @param voter
+   * @param {Mixed} serverID
+   * @param {Object} option
+   */
   updateVote(voter, serverID, option) {
     this.removeVote(voter, serverID);
     this.addVote(voter, serverID, option);
   }
 
+  /**
+   * Set a given voter's vote.
+   *
+   * @param voter
+   * @param {Mixed} serverID
+   * @param {String} layer
+   */
   addVote(voter, serverID, layer) {
     this.votes[serverID][voter] = layer;
     if (isNaN(this.results[serverID][layer])) this.results[serverID][layer] = 1;
     else this.results[serverID][layer]++;
   }
 
+  /**
+   * Remove a given voter's vote.
+   *
+   * @param voter
+   * @param {Mixed} serverID
+   */
   removeVote(voter, serverID) {
     let option = this.votes[serverID][voter];
     if (option === undefined) return;
@@ -234,6 +300,12 @@ export default class MapVote {
       delete this.results[serverID][option];
   }
 
+  /**
+   * Returns an array of result information.
+   *
+   * @param {Mixed} serverID
+   * @returns {Array}
+   */
   getVoteResults(serverID) {
     let results = [];
 
@@ -250,6 +322,7 @@ export default class MapVote {
       return Math.random() >= 0.5 ? 1 : -1;
     });
 
+    // if forced winner add that to start of results
     if (this.forcedLayer[serverID])
       results.splice(0, 0, {
         layer: this.forcedLayer[serverID],
@@ -259,6 +332,12 @@ export default class MapVote {
     return results;
   }
 
+  /**
+   * Generate a results embed for Discord.
+   *
+   * @param {Mixed} serverID
+   * @returns {{title: string, description: string, color: number}}
+   */
   getVoteResultsEmbed(serverID) {
     let description = '';
     let counter = 0;

@@ -2,6 +2,16 @@ import RconClient from './rconclient';
 import Gamedig from 'gamedig';
 
 export default class SquadServer {
+  /**
+   * Create a new SquadServer instance.
+   *
+   * @param {Mixed} id
+   * @param {String} host
+   * @param {Integer} queryPort
+   * @param {Integer} rconPort
+   * @param {String} rconPassword
+   * @param {Object} options
+   */
   constructor(id, host, queryPort, rconPort, rconPassword, options = {}) {
     if (id) this.id = id;
     else throw new Error('SquadServer must have a id!');
@@ -29,7 +39,13 @@ export default class SquadServer {
     this.announcements = [];
   }
 
+  /**
+   * Update all the information about the server.
+   *
+   * @returns {Promise<void>}
+   */
   async getServerInfo() {
+    // A2S Query
     let response = await Gamedig.query({
       type: 'protocol-valve',
       host: this.host,
@@ -56,10 +72,12 @@ export default class SquadServer {
     this.matchTimeout = parseFloat(response.raw.rules.MatchTimeout_f);
     this.gameVersion = response.raw.version;
 
+    // RCON Query
     this.layerChange = false;
     this.nextLayerChange = false;
     let { currentLayer, nextLayer } = await this.rcon.getCurrentAndNextLayer();
 
+    // Ignore transitional maps
     if (
       currentLayer === '/Game/Maps/TransitionMap' ||
       nextLayer === '/Game/Maps/TransitionMap'
@@ -99,6 +117,11 @@ export default class SquadServer {
     if (this.layerChange === true) this.adminChangeNextLayer = false;
   }
 
+  /**
+   * Apply any changes to the server information to the server.
+   *
+   * @returns {Promise<void>}
+   */
   async setServerInfo() {
     if (this.originalCurrentLayer !== this.currentLayer)
       await this.rcon.changeLayer(this.currentLayer);
@@ -117,6 +140,10 @@ export default class SquadServer {
     this.announcements = [];
   }
 
+  /**
+   * Add a new announcement to the queue.
+   * @param {String} text
+   */
   makeAnnouncement(text) {
     this.announcements.push(text);
   }

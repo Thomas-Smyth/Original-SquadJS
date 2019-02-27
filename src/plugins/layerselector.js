@@ -1,6 +1,11 @@
 import SquadMaps from '../../data/squad-maps/layers.json';
 
 export default class LayerSelector {
+  /**
+   * Init the Layer Selector Tool / Plugin
+   *
+   * @param {Object} options
+   */
   constructor(options = {}) {
     this.layerTolerance = options.layerTolerance || 4;
     this.mapTolerance = options.mapTolerance || 2;
@@ -10,10 +15,17 @@ export default class LayerSelector {
     this.layers = Object.keys(SquadMaps);
   }
 
+  /**
+   * Output plugin function to apply to the application.
+   *
+   * @returns {Function}
+   */
   plugin() {
     return async (server, next) => {
+      // Do not run if an admin has forced the next layer
       if (server.adminChangeNextLayer) return next();
 
+      // Do nothing if the current layer is compliant to all criteria
       if (this.isCompliant(server, server.nextLayer)) return next();
 
       server.nextLayer = this.randomCompliantLayer(server);
@@ -22,6 +34,11 @@ export default class LayerSelector {
     };
   }
 
+  /**
+   * Filter list of maps that can be used on the server.
+   *
+   * @param {Object} filterOptions
+   */
   layerFilter(filterOptions = {}) {
     let nightLayer = filterOptions.nightLayer || undefined;
     let whitelistLayers = filterOptions.whitelistLayers || null;
@@ -66,18 +83,40 @@ export default class LayerSelector {
     this.layers = layers;
   }
 
+  /**
+   * Reset the filter.
+   */
   clearFilter() {
     this.layers = SquadMaps;
   }
 
+  /**
+   * Return true if the layer is a valid Squad layer.
+   *
+   * @param {String} layer
+   * @returns {boolean}
+   */
   isLayer(layer) {
     return layer in SquadMaps;
   }
 
+  /**
+   * Return true if the layer is in the layer filter.
+   *
+   * @param {String} layer
+   * @returns {boolean}
+   */
   isInRotation(layer) {
     return this.layers.includes(layer);
   }
 
+  /**
+   * Return true if the layer passes the history criteria.
+   *
+   * @param {Array} layerHistory
+   * @param {String} layer
+   * @returns {boolean}
+   */
   isHistoryCompliant(layerHistory, layer) {
     let layerInfo = SquadMaps[layer];
 
@@ -103,6 +142,13 @@ export default class LayerSelector {
     return true;
   }
 
+  /**
+   * Return true if the layer passes the population count criteria.
+   *
+   * @param {Integer} populationCount
+   * @param {String} layer
+   * @returns {boolean}
+   */
   isPopulationCountCompliant(populationCount, layer) {
     let layerInfo = SquadMaps[layer];
     return !(
@@ -111,6 +157,13 @@ export default class LayerSelector {
     );
   }
 
+  /**
+   * Return true if layer is fully compliant.
+   *
+   * @param {SquadServer} server
+   * @param {String} layer
+   * @returns {boolean}
+   */
   isCompliant(server, layer) {
     return (
       this.isLayer(layer) &&
@@ -120,6 +173,12 @@ export default class LayerSelector {
     );
   }
 
+  /**
+   * Returns a compliant layer.
+   *
+   * @param {SquadServer} server
+   * @returns {*|string}
+   */
   randomCompliantLayer(server) {
     let layers = this.shuffleLayers(this.layers.slice());
     for (let layer of layers) {
@@ -132,6 +191,12 @@ export default class LayerSelector {
     return this.backupLayer;
   }
 
+  /**
+   * Shuffles a list of layers to allow a random layer to be selected.
+   *
+   * @param {Array} layers
+   * @returns {*}
+   */
   shuffleLayers(layers) {
     let currentIndex = layers.length;
     let temporaryValue;

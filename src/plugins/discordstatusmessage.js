@@ -1,4 +1,11 @@
 export default class DiscordStatusMessage {
+  /**
+   * Init the Discord Status Message Plugin
+   *
+   * @param client
+   * @param {Object} serverStatusMessages
+   * @param {Object} options
+   */
   constructor(client, serverStatusMessages = {}, options = {}) {
     if (client) this.client = client;
     else throw new Error('DiscordStatusMessage must have a Discord.js client!');
@@ -7,8 +14,14 @@ export default class DiscordStatusMessage {
     this.interval = options.interval || '5 minutes';
   }
 
+  /**
+   * Output plugin function to apply to the application.
+   *
+   * @returns {Function}
+   */
   plugin() {
     return async (server, next) => {
+      // Only run the plugin every x number of ticks.
       let statusMessages;
       if (this.serverStatusMessages.hasOwnProperty(server.id)) {
         statusMessages = this.serverStatusMessages[server.id];
@@ -16,6 +29,7 @@ export default class DiscordStatusMessage {
         return next();
       }
 
+      // Build the embed.
       let embed = {
         title: `${server.name} - Server Stats`,
         color: 15943495,
@@ -51,6 +65,7 @@ export default class DiscordStatusMessage {
           } minutes\`\`\``
         });
 
+      // Update the status messages.
       statusMessages.forEach(async statusMessage => {
         try {
           let channel = await this.client.channels.get(statusMessage.channelID);
