@@ -101,7 +101,7 @@ app.addServer(server) // add a Squad server to the list to process (must be a Sq
 
 Watch Servers:
 ```js
-app.watch(); // watch the servers running the plugins every 60 seconds (can be changed by giving a new CRON schedule string, but not advised)
+app.watch(schedule); // watch the servers running the plugins every 60 seconds (can be changed by giving a new CRON schedule string, but not advised)
 ```
 
 ## Bundled Plugin Setup
