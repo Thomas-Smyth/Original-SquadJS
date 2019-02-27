@@ -185,7 +185,7 @@ A basic plugin may look like:
 app.addPlugin(async function (server, next){
   console.log(server.nextMap); // do some action, like log the next map to the console
   next(); // call the next plugin. This can be used in combination with "return" to end the execution of the plugin
-  console.log(server.nextMap); // do an action after the next plugin, like log the next next map to the console
+  console.log(server.nextMap); // do an action after the next plugin, like log the new next map to the console
 });
 ```
 
