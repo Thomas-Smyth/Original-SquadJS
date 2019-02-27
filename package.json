@@ -1,6 +1,6 @@
 {
   "name": "SquadJS",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Squad Server Management Script Framework",
   "main": "build/index.js",
   "author": "Thomas Smyth <thomas.smyth3141@gmail.com>",
