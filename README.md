@@ -221,7 +221,7 @@ Squad.js can also update some information about the server.
 * `.rcon.execute(command)` - Manually run RCON commands on the server (not advised for map changes or announcements, use the above).
 
 ## Notes
-* To run RCON commands on the server, we use the [Thomas-Smyth/rcon](https://github.com/Thomas-Smyth/rcon) RCON library. It is a [fork of an existing client](https://github.com/Larinel/rcon), but attempts to fix a memory leak issue caused when commands are called frequently by a single instance. It is experimental, but seems to work well enough. Please be aware of this, however, as it may cause you some issues when developing your own plugins.
+* To run RCON commands on the server, we use the [Thomas-Smyth/rcon](https://github.com/Thomas-Smyth/rcon) RCON library. It is a [fork of an existing client](https://github.com/Larinel/rcon), but attempts to fix a memory leak issue caused when commands are called frequently by a single instance. It is experimental, but seems to work well enough. Please be aware of this, as it may cause you some issues when developing your own plugins.
 
 ## Credits
 Many thanks to [The Coalition Squad Server](https://joinsquad.ninja/), for whom this project was created. I am very grateful for how supportive and patient their community has been in the development on Squad.js.
