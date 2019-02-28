@@ -21,10 +21,10 @@ Though Squad.js allows you to create and use your own plugins, it also comes bun
 * Discord Status Messages - Provides server status messages in Discord allowing you to quickly find out basic information about a Squad server.
 * Discord Map Vote - Allows Discord users to vote for the next map.
 
-Each plugin can be enabled / disabled as required. Furthermore, the plugins also support multiple servers, so you can run Squad.js plugins on multiple Squad servers in a single application.
+Each plugin can be enabled/disabled as required. Furthermore, the plugins also support multiple servers, so you can run Squad.js plugins on multiple Squad servers in a single application.
 
 ## Basic Usage
-This guide will show you how to install and use Squad.js on your server box. Given that most Squad server owners use their own server box for hosting this seems to be the most suitable installation option for most.
+This guide will show you how to install and use Squad.js on your server box. Given that most Squad server owners use their own server box for hosting, this is the best installation option for most users.
 
 Some basic knowledge of Discord bots is required to setup some of the plugins. Furthermore, some knowledge of Javascript and NodeJS is very useful. If you get stuck on any aspect, feel free to [create an issue](https://github.com/Thomas-Smyth/SquadJS/issues/new) to get some help.
 
@@ -77,12 +77,12 @@ Finally, add your Discord bot's login token to the last line of the file.
 client.login('Discord Bot Login Token');
 ```
 
-The quick start file includes all th bundled plugins, though you can easily turn each of these off by commenting them out.
+The quick start file includes all the bundled plugins, though you can easily turn each of these off by commenting them out.
 
 More setup options for each plugin can be found below.
 
 ### Running Squad.js
-Once you have setup the application, you need to build the application and start it:
+Once you have set up the application, you need to build the application and start it:
 ```
 npm run build
 npm run start
@@ -110,7 +110,7 @@ Each plugin is registered to the Squad.js application after any required initial
 app.addPlugin(pluginname.plugin());
 ```
 ### Seeding Message Plugin
-Plugin Init:
+Plugin Initialisation:
 ```js
 const SeedingMessage = new SeedingMessagePlugin(
   maxPopulation, // maximum population before seeding messages end (default 40)
@@ -119,7 +119,7 @@ const SeedingMessage = new SeedingMessagePlugin(
 ```
 
 ### Layer Selector
-Plugin Init:
+Plugin Initialisation:
 ```js
 const LayerSelector = new LayerSelectorPlugin({
   layerTolerance: 4, // how many other layers must be played before this layer can be replayed (default 4)
@@ -143,7 +143,7 @@ LayerSelector.layerFilter({ // options (optional)
 ```
 
 ### Map Vote
-Plugin Init:
+Plugin Initialisation:
 ```js
 const MapVote = new MapVotePlugin(
   client, // discord.js client
@@ -163,7 +163,7 @@ Usage:
 * Those specified in the options can use the `!mapvoteforce <"cancel" / layer name / number>` to set a forced next map or cancel a forced next map (either set via admin in game or through Discord). Note cancelling a forced next map will also reactivate the map selector plugin to ensure the next map meets the set criteria.
 
 ### Discord Status Message
-Init:
+Initialisation:
 ```js
 const DiscordStatusMessage = new DiscordStatusMessagePlugin(
   client, // discord.js client
@@ -221,9 +221,9 @@ Squad.js can also update some information about the server.
 * `.rcon.execute(command)` - Manually run RCON commands on the server (not advised for map changes or announcements, use the above).
 
 ## Notes
-* To run RCON commands on the server, we use the [Thomas-Smyth/rcon](https://github.com/Thomas-Smyth/rcon) RCON library. It is a fork of a decent existing client, but attempts to fix a memory leak issue caused when commands are called frequently by a single instance. It is "experimental", but seems to work well enough. Please be aware of this, however, as it may cause you some issues when developing your own plugins.
+* To run RCON commands on the server, we use the [Thomas-Smyth/rcon](https://github.com/Thomas-Smyth/rcon) RCON library. It is a [fork of an existing client](https://github.com/Larinel/rcon), but attempts to fix a memory leak issue caused when commands are called frequently by a single instance. It is experimental, but seems to work well enough. Please be aware of this, however, as it may cause you some issues when developing your own plugins.
 
 ## Credits
-Many thanks to [The Coalition Squad Server](https://joinsquad.ninja/), for whom this project was created for. I am very grateful for how supportive and patient their community has been in the development on Squad.js.
+Many thanks to [The Coalition Squad Server](https://joinsquad.ninja/), for whom this project was created. I am very grateful for how supportive and patient their community has been in the development on Squad.js.
 
-Special thanks to subtlerod for providing servers to test on and answering all my questions about Squad servers.
+Special thanks to [subtlerod](https://steamcommunity.com/id/subtlerod/) for providing servers to test on and answering all my questions about Squad servers.
