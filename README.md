@@ -15,6 +15,8 @@
 ## About
 Squad.js is a powerful Squad server management script framework. It allows various tasks to be automated through "plugins" written in the same format as [Koa](https://github.com/koajs/koa) Middleware.
 
+Every x seconds (by default 60) each server is queried for the most up to date data, such as player count and current maps, before passing this data to each plugin to use in completing whatever task is required, whether that being logging the data for analysis or updating a webpage. Changes can also be applied to the server by these plugins using the supplied options or the rcon client build into Squad.js.
+
 Though Squad.js allows you to create and use your own plugins, it also comes bundled with several plugins:
 * Seeding Messages - Automatically announces seeding rules in game when the server population is below the required amount.
 * Layer Selector - Improves the automatic selection of the next map by factoring the population of the server and the layer history.
