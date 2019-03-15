@@ -34,7 +34,7 @@ export default class RconClient {
    */
   async execute(command) {
     await this.rcon.connect();
-    await this.rcon.authenticate(this.password);
+    if(!this.rcon.authenticated) await this.rcon.authenticate(this.password);
     let response = await this.rcon.execute(command);
     await this.rcon.disconnect();
     return response;
