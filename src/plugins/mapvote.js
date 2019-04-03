@@ -219,7 +219,8 @@ export default class MapVote {
 
     try {
       channel = await this.client.channels.get(channel);
-      channel.send({ embed });
+      await channel.bulkDelete(9999);
+      await channel.send({ embed });
     } catch (e) {
       console.log(`Error fetching channel - most likely did not exist: ${e}`);
     }
