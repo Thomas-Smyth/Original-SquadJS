@@ -33,7 +33,11 @@ export default class Application {
 
     return () => {
       for (let server of this.servers) {
-        fn(server);
+        try {
+          fn(server);
+        } catch (err) {
+          console.log(`${server.id} throw an error on tick!`);
+        }
       }
     };
   }

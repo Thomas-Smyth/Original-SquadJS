@@ -33,15 +33,11 @@ export default class RconClient {
    * @returns {Promise<*|void>}
    */
   async execute(command) {
-    try {
-      await this.rcon.connect();
-      await this.rcon.authenticate(this.password);
-      let response = await this.rcon.execute(command);
-      await this.rcon.disconnect();
-      return response;
-    } catch (err) {
-      console.log(`Failed to execute command: ${command}`);
-    }
+    await this.rcon.connect();
+    await this.rcon.authenticate(this.password);
+    let response = await this.rcon.execute(command);
+    await this.rcon.disconnect();
+    return response;
   }
 
   /**
