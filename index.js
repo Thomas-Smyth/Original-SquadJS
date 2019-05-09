@@ -55,5 +55,9 @@ client.on('ready', () => {
   MapVote.newVoteMessage(ServerName.id);
 });
 
+client.on('error', (err) => {
+  console.log(`An error occurs with the Discord Bot: ${err.message}`);
+});
+
 // Login Bot
 client.login('Discord Bot Login Token');

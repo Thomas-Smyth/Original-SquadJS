@@ -16,7 +16,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
     "dev": "nodemon index.js",
-    "build": "rimraf build && babel src -d build --copy-files",
+    "build": "rimraf build && babel src -d build --copy-files --source-maps",
     "lint": "eslint --fix src && prettier --write \"src/**/*.js\""
   },
   "dependencies": {
