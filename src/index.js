@@ -1,18 +1,16 @@
-import Application from './application';
-import SquadServer from './server';
-import RconClient from './rconclient';
+import SquadServer from './squad-server';
 
-import SeedingMessage from './plugins/seedingmessage';
-import DiscordStatusMessage from './plugins/discordstatusmessage';
-import LayerSelector from './plugins/layerselector';
-import MapVote from './plugins/mapvote';
+import TickTest from './plugins/tick-test';
+import SeedingMessage from './plugins/seeding-message';
+import DiscordStatusMessage from './plugins/discord-status-message';
+import LayerSelector from './plugins/layer-selector';
+import DiscordLayerVote from './plugins/discord-layer-vote';
 
 export {
-  Application,
   SquadServer,
-  RconClient,
+  TickTest,
   SeedingMessage,
   DiscordStatusMessage,
   LayerSelector,
-  MapVote
+  DiscordLayerVote
 };
