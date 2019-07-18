@@ -4,7 +4,7 @@ export default class SeedingMessage {
   constructor(options = {}) {
     this.maxPlayerCount = options.maxPlayerCount || 40;
     this.frequency = options.frequency || 5;
-    this.ticksToMessage = 4;
+    this.ticksToMessage = this.frequency;
 
     this.tick = this.tick.bind(this);
   }
