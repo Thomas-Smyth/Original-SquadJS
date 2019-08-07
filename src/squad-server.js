@@ -90,11 +90,7 @@ class SquadServer {
       if (typeof plugin.prepare === 'function') plugin.prepare(this);
     });
 
-    if (this.maintainRconConnection) {
-      console.log('Connecting to Rcon...');
-      await this.rcon.connect();
-      await this.rcon.authenticate(this.rconPassword);
-    }
+    if (this.maintainRconConnection) await this.connectToRcon();
 
     console.log('Running SquadJS plugins...');
 
@@ -136,6 +132,9 @@ class SquadServer {
     }
 
     try {
+      // if there is no rcon connection and there should be, try to reestablish it
+      if (!server.rcon.connected && server.maintainRconConnection)
+        await server.connectToRcon();
       await server.fetchRconInfo();
     } catch (err) {
       console.log(`Error fetching Rcon server information... ${err.message}`);
@@ -229,11 +228,14 @@ class SquadServer {
     this.previousNextLayer = this.nextLayer;
   }
 
+  async connectToRcon() {
+    console.log('Connecting to Rcon...');
+    await this.rcon.connect();
+    await this.rcon.authenticate(this.rconPassword);
+  }
+
   async executeRconCommand(command) {
-    if (!this.rcon.connected) {
-      await this.rcon.connect();
-      await this.rcon.authenticate(this.rconPassword);
-    }
+    if (!this.rcon.connected) await this.connectToRcon();
 
     let response = await this.rcon.execute(command);
 
