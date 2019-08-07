@@ -1,7 +1,8 @@
 import compose from 'koa-compose';
+import scheduler from 'node-schedule';
+import nodeCleanup from 'node-cleanup';
 import Gamedig from 'gamedig';
 import RconClient from '@thomas-smyth/rcon';
-import scheduler from 'node-schedule';
 
 import SquadLayers from './utils/squad-layers';
 
@@ -74,6 +75,11 @@ class SquadServer {
       this.maintainRconConnection = options.maintainRconConnection;
 
     this.rcon = new RconClient({ host: this.host, port: this.rconPort });
+
+    nodeCleanup(() => {
+      console.log(`Closing rcon connection to ${this.host}:${this.rconPort}`);
+      this.rcon.disconnect();
+    });
   }
 
   async run() {
