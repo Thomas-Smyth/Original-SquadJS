@@ -14,11 +14,12 @@
   "homepage": "https://github.com/Thomas-Smyth/SquadJS#readme",
   "license": "MIT",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node index.js",
-    "discord-cli": "babel-node ./src/utils/discord-tools-cli.js",
-    "deploy": "pm2 stop SquadJS && npm run build && pm2 start ecosystem.config.js --env production",
-    "dev": "nodemon index.js",
     "build": "rimraf build && babel src -d build --copy-files --source-maps",
+    "deploy": "pm2 stop SquadJS && npm run build && pm2 start ecosystem.config.js --env production",
+    "start": "cross-env NODE_ENV=production node index.js",
+    "start-botless": "cross-env NODE_ENV=production node index-botless.js",
+    "discord-cli": "babel-node ./src/utils/discord-tools-cli.js",
+    "dev": "nodemon index.js",
     "lint": "eslint --fix src && prettier --write \"src/**/*.js\""
   },
   "dependencies": {
