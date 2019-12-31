@@ -122,8 +122,8 @@ class SquadLayers {
 
   isPlayerCountCompliant(playerCount, layer) {
     return !(
-      playerCount > this[layer].maxPlayers ||
-      playerCount < this[layer].minPlayers
+      playerCount > this[layer].estimatedSuitablePlayerCount.max ||
+      playerCount < this[layer].estimatedSuitablePlayerCount.min
     );
   }
 }
