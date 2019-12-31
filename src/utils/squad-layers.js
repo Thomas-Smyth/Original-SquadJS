@@ -48,7 +48,6 @@ class SquadLayers {
   }
 
   filterLayers(filter = {}) {
-    let nightLayer = filter.nightLayer || undefined;
     let whitelistLayers = filter.whitelistLayers || null;
     let blacklistLayers = filter.blacklistLayers || null;
     let whitelistMaps = filter.whitelistMaps || null;
@@ -60,9 +59,6 @@ class SquadLayers {
 
     for (let layer of this.listLayers()) {
       let layerInfo = this[layer];
-
-      // Disallow night maps.
-      if (nightLayer !== undefined && nightLayer !== layerInfo.night) continue;
 
       // Whitelist / Blacklist Layers, Maps and Gamemodes
       if (whitelistLayers !== null && !whitelistLayers.includes(layer))

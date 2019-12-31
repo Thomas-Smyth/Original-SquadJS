@@ -1,6 +1,6 @@
 import SquadLayers from '../utils/squad-layers';
 
-export default class SeedingMessage {
+export default class LayerSelector {
   constructor(filter, options = {}) {
     this.filter = filter;
 

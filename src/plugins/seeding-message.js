@@ -27,12 +27,7 @@ export default class SeedingMessage {
     )
       return next();
 
-    let flags =
-      SquadLayers[server.currentLayer].middleFlags.length !== 0
-        ? SquadLayers[server.currentLayer].middleFlags.join(' and ')
-        : 'the center flags';
-
-    const announcement = `Seeding mode is Active! Fight only over ${flags}. No attacking FOBs.`;
+    const announcement = `Seeding mode is Active! Fight only over the center flags. No attacking FOBs.`;
 
     if (server.playerCount < this.maxPlayerCount)
       server.makeAnnouncement(announcement);
