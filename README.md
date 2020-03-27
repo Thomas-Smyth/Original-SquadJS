@@ -12,6 +12,9 @@
 <br>
 </div>
 
+## NEW: SquadJS Rewrite
+Please see [the new SquadJS repo](https://github.com/Thomas-Smyth/SquadJS) for the rewritten SquadJS framework. This will be where future work is done going forwards.
+
 ## About
 Squad.js is a powerful Squad server management script framework. It allows various tasks to be automated through "plugins" written in the same format as [Koa](https://github.com/koajs/koa) Middleware.
 
