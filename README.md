@@ -2,11 +2,11 @@
 
 # SQUAD.js
 
-[![GitHub release](https://img.shields.io/github/release/Thomas-Smyth/SquadJS.svg?style=flat-square)](https://github.com/Thomas-Smyth/SquadJS/releases)
-[![GitHub issues](https://img.shields.io/github/issues/Thomas-Smyth/SquadJS.svg?style=flat-square)](https://github.com/Thomas-Smyth/SquadJS/issues)
-[![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/Thomas-Smyth/SquadJS.svg?style=flat-square)](https://github.com/Thomas-Smyth/SquadJS/pulls)
-[![GitHub contributors](https://img.shields.io/github/contributors/Thomas-Smyth/SquadJS.svg?style=flat-square)](https://github.com/Thomas-Smyth/SquadJS/graphs/contributors)
-[![GitHub license](https://img.shields.io/github/license/Thomas-Smyth/SpaceX-API-Wrapper.svg?style=flat-square)](https://github.com/Thomas-Smyth/SquadJS/blob/master/LICENSE.md)
+[![GitHub release](https://img.shields.io/github/release/Thomas-Smyth/Original-SquadJS.svg?style=flat-square)](https://github.com/Thomas-Smyth/Original-SquadJS/releases)
+[![GitHub issues](https://img.shields.io/github/issues/Thomas-Smyth/Original-SquadJS.svg?style=flat-square)](https://github.com/Thomas-Smyth/Original-SquadJS/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/Thomas-Smyth/Original-SquadJS.svg?style=flat-square)](https://github.com/Thomas-Smyth/Original-SquadJS/pulls)
+[![GitHub contributors](https://img.shields.io/github/contributors/Thomas-Smyth/Original-SquadJS.svg?style=flat-square)](https://github.com/Thomas-Smyth/Original-SquadJS/graphs/contributors)
+[![GitHub license](https://img.shields.io/github/license/Thomas-Smyth/Original-SquadJS.svg?style=flat-square)](https://github.com/Thomas-Smyth/Original-SquadJS/blob/master/LICENSE.md)
 
 ### Squad Server Management Script Framework
 <br>
